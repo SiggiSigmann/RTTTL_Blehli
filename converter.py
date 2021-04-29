@@ -1,6 +1,6 @@
 from fractions import Fraction
 
-rtttl = "The Simpsons Theme - The Simpsons:o=5,d=4,b=225:8f#6.,8f#5.,8f#5.,8a#6.,8f#5.,8c7.,8f#5.,8d#7.,8c#7.,8f#5.,8f#5.,8a#6.,8f#5.,8f#6.,8f#5.,8d#6.,8c6.,8c6.,8c6.,8c#6.,8f#5.,8f#5.,8c5.,8c#5.,8c6.,8c6.,8c6.,8c#6.,8f#5.,8f#5.,c5.,8c#5.,8f#6.,8f#5.,8f#5.,8a#6.,8f#5.,8c7.,8f#5.,8d#7.,8c#7.,8f#5.,8f#5.,8a#6.,8f#5.,8f#6.,8f#5.,8d#6.,8c6.,8c6.,8c6.,8c#6.,8f#5.,8f#5.,8c5.,8c#5.,8c6.,8c6.,8c6.,8c#6.,8f#5.,8f#5.,8c5.,8c#5.,f#5."
+rtttl = "Theme - Harry Potter:o=5,d=16,b=125:8b5,8e6.,g6,8f#6,4e6,8b6,4a6.,4f#6.,8e6.,g6,8f#6,4d6,8f6,2b5,8p5,8b5,8e6.,g6,8f#6,4e6,8b6,4d7,8c#7,4c7,8g#6,8c7.,b6,8a#6,4f#6,8g6,2e6,8p5,8g6,4b6,8g6,4b6,8g5,4c7,8b6,4a#6,8f#6,8g6.,b6,8a#6,4a#5,8b5,2b6,8p5"
 split1 = rtttl.split(":")
 
 print("name:" + split1[0])
@@ -82,7 +82,13 @@ while(smalles_duration*multipy<(1/8)):
 print(multipy)
 
 str_melody = ""
+count = 0
 for m in melody:
     str_melody += m[0] +" "+str(Fraction(m[1]*multipy))+" "
+    count += 1
+    if count == 48:
+        print(str_melody)
+        print(" ")
+        print(" ")
 
 print(str_melody)

@@ -1,9 +1,18 @@
+import sys
 from fractions import Fraction
 
 #rtttl string
-rtttl = "Mission Impossible - Theme:o=5,d=4,b=112:16g6,8p5,16g6,8p5,16f6,16p5,16f#6,16p5,16g6,8p5,16g6,8p5,16a#6,16p5,16c7,16p5,16g6,8p5,16g6,8p5,16f6,16p5,16f#6,16p5,16g6,8p5,16g6,8p5,16a#6,16p5,16c7,16p5,16a#6,16g6,2d6,32p5,16c#6,16g6,2c#6,32p5,16a#6,16g6,2c6,16p5,16a#5,16c6"
-pre_multiplyer = 1.0
-long_notes_division = 2.0
+rtttl = ""
+pre_multiplyer =  1
+
+#process input
+if len(sys.argv)==2:
+    rtttl = sys.argv[1]
+elif len(sys.argv)==3:
+    pre_multiplyer = float(sys.argv[1])
+    rtttl = sys.argv[2]
+else:
+    print("two arguments are needed => \n\tfirst: length multiplyer\n\tsecond: RTTTL in quotes \"\"")
 
 #extract name
 split1 = rtttl.split(":")
@@ -44,10 +53,7 @@ for n in notes:
         duration = d
         #octav is defined
         if(len(n)==1):
-            if(n[1] == "#"):
-                tone = n+str(o)
-            else:
-                tone = n
+            tone = n+str(o)
         elif(len(n)>1):
             tone = n
         else:
@@ -115,7 +121,7 @@ for m in melody:
         continue
     #check if durations fits in range
     if((m[1]*multipy)>=1.0):
-        duration = (m[1]*multipy) / long_notes_division
+        duration = (m[1]*multipy)
         while(duration>1.0):
             str_melody += m[0] +" "+str(Fraction(1/1))+" "
             duration -= 1.0

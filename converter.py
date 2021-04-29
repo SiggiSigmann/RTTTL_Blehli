@@ -1,6 +1,6 @@
 from fractions import Fraction
 
-rtttl = "Queen - Bohemian Rapsody:o=5,d=4,b=80:16e5,2e5.,16p5,8c5,8d5,16e5,2e5,16p5,8p5,16d5,16e5,8f5,16g5,16f5,16p5,8e5,d5,16p5,8d5,8e5,8f5,16g5,16f5,16p5,8e5,2d5,16p5,16e5,2e5,16p5,8p5,8e5,8g5,8b5.,16a5,2a5,8p5,8c6,8c6,8c6,8c6,8c6,8c6.,16a5,8c5.,8e5.,2d5.,8p5,16a5,2a5,16p5,8p5,8g5,16a5,16a#5,2a5.,8p5,16a5,16a5,8a#5.,16a#5,8a#5,8a5,g5.,16p5,16c5,8c5,8g5,8g5,8a5,8a5,8a#5,8a#5,8c6,16a#5,a5,16p5,16g5,16a5,c6.,16g5,16a5,2f5,16c#5,8d#5,8c#5.,16d#5,2c5"
+rtttl = "The Simpsons Theme - The Simpsons:o=5,d=4,b=225:8f#6.,8f#5.,8f#5.,8a#6.,8f#5.,8c7.,8f#5.,8d#7.,8c#7.,8f#5.,8f#5.,8a#6.,8f#5.,8f#6.,8f#5.,8d#6.,8c6.,8c6.,8c6.,8c#6.,8f#5.,8f#5.,8c5.,8c#5.,8c6.,8c6.,8c6.,8c#6.,8f#5.,8f#5.,c5.,8c#5.,8f#6.,8f#5.,8f#5.,8a#6.,8f#5.,8c7.,8f#5.,8d#7.,8c#7.,8f#5.,8f#5.,8a#6.,8f#5.,8f#6.,8f#5.,8d#6.,8c6.,8c6.,8c6.,8c#6.,8f#5.,8f#5.,8c5.,8c#5.,8c6.,8c6.,8c6.,8c#6.,8f#5.,8f#5.,8c5.,8c#5.,f#5."
 split1 = rtttl.split(":")
 
 print("name:" + split1[0])
@@ -67,8 +67,10 @@ for n in notes:
         duration = 1.0/duration
         melody.append([tone,duration])
 
-    if(duration < smalles_duration):
-        smalles_duration = duration
+
+for m in melody:
+    if(m[1] < smalles_duration):
+        smalles_duration = m[1]
         
     
 print(Fraction(smalles_duration))

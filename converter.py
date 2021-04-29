@@ -1,7 +1,7 @@
 from fractions import Fraction
 
-rtttl = "HauntedHouse: d=4,o=5,b=108: 2a4., 2e, 2d#, 2b4, 2a4, 2c, 2d, 2a#4, 2e., e, 1f4, 1a4, 1d#, 2e., d, 2c., b4, 1a4, 1p, 2a4, 2e, 2d#, 2b4, 2a4, 2c, 2d, 2a#4, 2e., e, 1f4, 1a4, 1d#, 2e., d, 2c., b4, 1a4"
-split1 = rtttl.split(": ")
+rtttl = "Queen - Bohemian Rapsody:o=5,d=4,b=80:16e5,2e5.,16p5,8c5,8d5,16e5,2e5,16p5,8p5,16d5,16e5,8f5,16g5,16f5,16p5,8e5,d5,16p5,8d5,8e5,8f5,16g5,16f5,16p5,8e5,2d5,16p5,16e5,2e5,16p5,8p5,8e5,8g5,8b5.,16a5,2a5,8p5,8c6,8c6,8c6,8c6,8c6,8c6.,16a5,8c5.,8e5.,2d5.,8p5,16a5,2a5,16p5,8p5,8g5,16a5,16a#5,2a5.,8p5,16a5,16a5,8a#5.,16a#5,8a#5,8a5,g5.,16p5,16c5,8c5,8g5,8g5,8a5,8a5,8a#5,8a#5,8c6,16a#5,a5,16p5,16g5,16a5,c6.,16g5,16a5,2f5,16c#5,8d#5,8c#5.,16d#5,2c5"
+split1 = rtttl.split(":")
 
 print("name:" + split1[0])
 split2 = split1[1].split(",")
@@ -18,7 +18,7 @@ for i in split2:
 print("d:"+str(d)+" o:"+str(o)+" b: "+str(b))
 
 valideNotes = ["a", "b", "c", "d", "e", "f", "g", "p"]
-notes = split1[2].split(", ")
+notes = split1[2].split(",")
 smalles_duration = 99
 melody = []
 for n in notes:
@@ -32,7 +32,15 @@ for n in notes:
     tone = ""
     if n[0] in valideNotes:
         duration = d
-        tone = n+str(o)
+        if(len(n)==1):
+            if(n[1] == "#"):
+                tone = n+str(o)
+            else:
+                tone = n
+        elif(len(n)>1):
+            tone = n
+        else:
+            tone = n+str(o)
     else:
         start = 0
         for i in range(len(n)):
@@ -60,16 +68,16 @@ for n in notes:
         melody.append([tone,duration])
 
     if(duration < smalles_duration):
-        smalles_duration = duration/2
+        smalles_duration = duration
         
     
-#print(Fraction(smalles_duration))
+print(Fraction(smalles_duration))
 #print(melody)
 
 multipy = 1.0
 while(smalles_duration*multipy<(1/8)):
     multipy += multipy
-#print(multipy)
+print(multipy)
 
 str_melody = ""
 for m in melody:

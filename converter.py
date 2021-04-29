@@ -1,35 +1,60 @@
+from fractions import Fraction
 
-d=4
-melody = "2a#5,2f5,p5,8a#5,8a#5,8c6,8d6,8d#6,2f6,2p5,f6,f6,8f#6,8g#6,2a#6,2p5,a#6,8a#6,8p5,8g#6,8f#6,g#6.,8f#6,2f6,2p5,2f6,d#6,8d#6,8f6,2f#6,2p5,f6,d#6,c#6,8c#6,8d#6,2f6,2p5,d#6,c6,c6,8c6,8d6,2e6,2p5,2g6,1f6"
+rtttl = "HauntedHouse: d=4,o=5,b=108: 2a4., 2e, 2d#, 2b4, 2a4, 2c, 2d, 2a#4, 2e., e, 1f4, 1a4, 1d#, 2e., d, 2c., b4, 1a4, 1p, 2a4, 2e, 2d#, 2b4, 2a4, 2c, 2d, 2a#4, 2e., e, 1f4, 1a4, 1d#, 2e., d, 2c., b4, 1a4"
+split1 = rtttl.split(": ")
 
-notes = melody.split(",")
+print("name:" + split1[0])
+split2 = split1[1].split(",")
+d=-1
+o=-1
+b=-1
+for i in split2:
+    if i[0] == "d":
+        d=int(i[2:])
+    if i[0] == "o":
+        o=int(i[2:])
+    if i[0] == "b":
+        b=int(i[2:])
+print("d:"+str(d)+" o:"+str(o)+" b: "+str(b))
 
-new_notes = []
-stringout = ""
-
-numbers = ["1","2","3","4","5","6","7","8","9"]
+valideNotes = ["a", "b", "c", "d", "e", "f", "g", "p"]
+notes = split1[2].split(", ")
+melody = ""
 for n in notes:
-	#check for duration is set
-	if n[0] in numbers:
-		new = str(int(int(n[0])/2))
-		if new == "0":
-			new = "1"					
-		if n[1] == "p":
-			stringout += "P 1/" + new +" "
-		else:
-			if n[-1] == ".":
-				stringout += (n[1].upper()+n[2:-1]+" 1/"+ new +" ")
-			else:
-				stringout += (n[1].upper()+n[2:]+" 1/"+ new +" ")
-	else:
-		d = str(2)
-		if d == "0":
-			d = "1"
-		if n[0] == "p":
-			stringout += "P 1/"+ d +" "
-		else:
-			if n[-1] == ".":
-				stringout += (n[0].upper()+n[1:-1]+" 1/"+ d +" ")
-			else:
-				stringout += (n[0].upper()+n[1:]+" 1/"+ d +" ")
-print(stringout)
+    halflonger = 0
+    if n[-1] == ".":
+        halflonger=1
+        n = n[:-1]
+        #print(".")
+
+    duration = -1
+    tone = ""
+    if n[0] in valideNotes:
+        duration = d
+        tone = n+str(o)
+    else:
+        start = 0
+        for i in range(len(n)):
+            if n[i] in valideNotes:
+                start = i
+
+        if start > 0:
+            duration = int(n[:start])
+        else:
+            duration = 1
+    
+        tone = n[start:]
+        if (tone[-1] in valideNotes) or ( tone[-1] == "#"):
+            tone = tone + str(o)
+
+    if halflonger == 1:
+        oldduration = (1.0/duration)
+        duration = Fraction(1.0/duration)
+        duration = Fraction(oldduration + ( oldduration /2))
+    else:
+        duration = Fraction(1.0/duration)
+
+    tone = tone.upper()
+    melody += (tone + " " + str(duration) + " ")
+
+print(melody)

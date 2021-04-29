@@ -19,7 +19,8 @@ print("d:"+str(d)+" o:"+str(o)+" b: "+str(b))
 
 valideNotes = ["a", "b", "c", "d", "e", "f", "g", "p"]
 notes = split1[2].split(", ")
-melody = ""
+smalles_duration = 99
+melody = []
 for n in notes:
     halflonger = 0
     if n[-1] == ".":
@@ -47,14 +48,31 @@ for n in notes:
         if (tone[-1] in valideNotes) or ( tone[-1] == "#"):
             tone = tone + str(o)
 
-    if halflonger == 1:
-        oldduration = (1.0/duration)
-        duration = Fraction(1.0/duration)
-        duration = Fraction(oldduration + ( oldduration /2))
-    else:
-        duration = Fraction(1.0/duration)
-
+    if tone[0] == "p":
+        tone = tone[0]
     tone = tone.upper()
-    melody += (tone + " " + str(duration) + " ")
 
-print(melody)
+    if halflonger == 1:
+        melody.append([tone,1.0/duration])
+        melody.append([tone,1.0/(duration*2)])
+    else:
+        duration = 1.0/duration
+        melody.append([tone,duration])
+
+    if(duration < smalles_duration):
+        smalles_duration = duration/2
+        
+    
+#print(Fraction(smalles_duration))
+#print(melody)
+
+multipy = 1.0
+while(smalles_duration*multipy<(1/8)):
+    multipy += multipy
+#print(multipy)
+
+str_melody = ""
+for m in melody:
+    str_melody += m[0] +" "+str(Fraction(m[1]*multipy))+" "
+
+print(str_melody)

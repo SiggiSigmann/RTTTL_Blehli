@@ -1,7 +1,9 @@
 from fractions import Fraction
 
 #rtttl string
-rtttl = "Theme - Indiana Jones:o=5,d=4,b=250:32p5,e5,8p5,8f5,8g5,8p5,1c6,8p5,d5,8p5,8e5,1f5,p5,g5,8p5,8a5,8b5,8p5,1f6,p5,a5,8p5,8b5,2c6,2d6,2e6,e5,8p5,8f5,8g5,8p5,1c6,p5,d6,8p5,8e6,1f7"
+rtttl = "Mission Impossible - Theme:o=5,d=4,b=112:16g6,8p5,16g6,8p5,16f6,16p5,16f#6,16p5,16g6,8p5,16g6,8p5,16a#6,16p5,16c7,16p5,16g6,8p5,16g6,8p5,16f6,16p5,16f#6,16p5,16g6,8p5,16g6,8p5,16a#6,16p5,16c7,16p5,16a#6,16g6,2d6,32p5,16c#6,16g6,2c#6,32p5,16a#6,16g6,2c6,16p5,16a#5,16c6"
+pre_multiplyer = 1.0
+long_notes_division = 2.0
 
 #extract name
 split1 = rtttl.split(":")
@@ -95,35 +97,49 @@ for m in melody:
     if(m[1] > max_duration):
         max_duration = m[1]
 #print(Fraction(smalles_duration))
-#print(Fraction(max_duration))
+print(Fraction(max_duration))
 
 #calc multiplayer to fit duratins into range (1/1 - 1/8)
 multipy = 1.0
-while((smalles_duration*multipy<(1/8)) and (not(max_duration*multipy)>=1)):
+while((smalles_duration*multipy<(1/8))):
     multipy += multipy
-#print(multipy)
+multipy *=  pre_multiplyer
+print(multipy)
 
 #create string to put in blheli
 str_melody = ""
 str_melody_48 = ""
 count = 0
-clipped = 0
-clippedNotes = ""
 for m in melody:
-    #check if durations fits in range (non fitting will be cut off)
-    if(m[1]>=(1/8) and m[1]<=(1)):
-        str_melody += m[0] +" "+str(Fraction(m[1]*multipy))+" "
-        count += 1
-        #check if max length is reached
-        if count == 48:
-            str_melody_48 = str_melody
+    if count == 0 and m[0] == "P":
+        continue
+    #check if durations fits in range
+    if((m[1]*multipy)>=1.0):
+        duration = (m[1]*multipy) / long_notes_division
+        while(duration>1.0):
+            str_melody += m[0] +" "+str(Fraction(1/1))+" "
+            duration -= 1.0
+            count += 1
+            #check if max length is reached
+            if count == 48:
+                str_melody_48 = str_melody
+        if duration > 0:
+            str_melody += m[0] +" "+str(Fraction(duration))+" "
+            count += 1
+            #check if max length is reached
+            if count == 48:
+                str_melody_48 = str_melody
     else:
-        clipped = 1
-        clippedNotes += m[0] +" "+str(Fraction(m[1]*multipy))+" "
-
-if clipped == 1:
-    print("melody had to be clipped")
-    print("\t"+clippedNotes)
+        if((m[1]*multipy)>=(1/8)):
+            
+            str_melody += m[0] +" "+str(Fraction(m[1]*multipy))+" "
+            count += 1
+            #check if max length is reached
+            if count == 48:
+                str_melody_48 = str_melody
+        else:
+            clipped = 1
+            clippedNotes += m[0] +" "+str(Fraction(m[1]*multipy))+" "
 
 print(" ")
 print(str_melody)

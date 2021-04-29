@@ -103,19 +103,21 @@ for m in melody:
     if(m[1] > max_duration):
         max_duration = m[1]
 #print(Fraction(smalles_duration))
-print(Fraction(max_duration))
+#print(Fraction(max_duration))
 
 #calc multiplayer to fit duratins into range (1/1 - 1/8)
 multipy = 1.0
 while((smalles_duration*multipy<(1/8))):
     multipy += multipy
 multipy *=  pre_multiplyer
-print(multipy)
+#(multipy)
 
 #create string to put in blheli
 str_melody = ""
 str_melody_48 = ""
 count = 0
+clippedNotes = ""
+clipped = 0
 for m in melody:
     if count == 0 and m[0] == "P":
         continue
@@ -146,6 +148,11 @@ for m in melody:
         else:
             clipped = 1
             clippedNotes += m[0] +" "+str(Fraction(m[1]*multipy))+" "
+
+if clipped==1:
+    print("Some tones were out of range. Check the multiplayer Optionif it is smaler than 1")
+    print("Following tons were cut of")
+    print("\t"+clippedNotes)
 
 print(" ")
 print(str_melody)
